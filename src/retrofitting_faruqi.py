@@ -31,22 +31,20 @@ def read_word_vecs(filename):
   - input: name of the file containing the word vectors
   """
   wordVectors = {}
-  if filename.endswith('.gz'): fileObject = gzip.open(filename, 'r')
-  else: fileObject = open(filename, 'r')
-  
-  for line in fileObject:
-    line = line.strip().lower()
-    # The first word is assumed to be the word itself, and the remaining words are assumed to be the components of the word vector
-    word = line.split()[0]
-    # initialize a numpy array of zeros with the same length as the word vector
-    wordVectors[word] = numpy.zeros(len(line.split())-1, dtype=float)
-    for index, vecVal in enumerate(line.split()[1:]):
-      # assign the values in the numpy array to the corresponding components of the word vector
-      wordVectors[word][index] = float(vecVal)
-    ''' normalize weight vector '''
-    # divide each element by the square root of the sum of the squares of all the elements in the array
-    # plus a small constant (1e-6) to avoid division by zero
-    wordVectors[word] /= math.sqrt((wordVectors[word]**2).sum() + 1e-6)
+  with open(filename, 'r', encoding='utf-8') as fileObject:
+    for line in fileObject:
+      line = line.strip().lower()
+      # The first word is assumed to be the word itself, and the remaining words are assumed to be the components of the word vector
+      word = line.split()[0]
+      # initialize a numpy array of zeros with the same length as the word vector
+      wordVectors[word] = numpy.zeros(len(line.split())-1, dtype=float)
+      for index, vecVal in enumerate(line.split()[1:]):
+        # assign the values in the numpy array to the corresponding components of the word vector
+        wordVectors[word][index] = float(vecVal)
+      ''' normalize weight vector '''
+      # divide each element by the square root of the sum of the squares of all the elements in the array
+      # plus a small constant (1e-6) to avoid division by zero
+      wordVectors[word] /= math.sqrt((wordVectors[word]**2).sum() + 1e-6)
   
   # standard error indicating that the vectors have been read from the file 
   sys.stderr.write("Vectors read from: "+filename+" \n")
@@ -59,8 +57,8 @@ def print_word_vecs(wordVectors, outFileName):
            file name outFileName
   """
   sys.stderr.write('\nWriting down the vectors in '+outFileName+'\n')
-  outFile = open(outFileName, 'w')  
-  for word, values in wordVectors.iteritems():
+  outFile = open(outFileName, 'w', encoding= 'utf-8')  
+  for word, values in wordVectors.items():
     outFile.write(word+' ')
     for val in wordVectors[word]:
       # write the word vectors to the ouptu file in the format:
@@ -125,3 +123,6 @@ if __name__=='__main__':
   
   ''' Enrich the word vectors using ppdb and print the enriched vectors '''
   print_word_vecs(retrofit(wordVecs, lexicon, numIter), outFileName) 
+
+  # command line: python retrofitting_faruqi.py -i path/to/input/word/vectors/file -l path/to/lexicon/file -o path/to/output/word/vectors/file -n 10
+  # python retrofitting_faruqi.py -i ../data/English/wordEmbeddings/vectors_datatxt_250_sg_w10_i5_c500_gensim_clean -l ../data/English/lexicon/ws353_lexical_similarity.txt -o ../data/English/output_vectors/output_vectors.txt -n 10
