@@ -1,3 +1,6 @@
+Requirements
+- having X amount of models and libraries downloaded. The full list is in the file XYZ
+
 
 Assignment:
 ####################################
