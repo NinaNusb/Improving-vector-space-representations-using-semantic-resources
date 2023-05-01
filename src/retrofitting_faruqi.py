@@ -77,6 +77,11 @@ def read_lexicon(filename):
     lexicon[norm_word(words[0])] = [norm_word(word) for word in words[1:]]
   return lexicon
 
+# Hyperparameters
+ALPHA = 1
+BETA = 1/lexicon #TODO: check if that's true
+NB_ITER = 10
+
 ''' Retrofit word vectors to a lexicon '''
 def retrofit(wordVecs, lexicon, numIters):
   newWordVecs = deepcopy(wordVecs)
