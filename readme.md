@@ -46,9 +46,7 @@ In order to run the Word Retrofitting Tool, make sure you have the following mod
 1. Open the command-line interface (CLI) or terminal.
 2. Navigate to the directory where the Word Retrofitting Tool is located.
 3. Run the following command to execute the program:
-    '''
-    python retrofit_tool.py -input <input_file> -lexicon <lexicon_file> -output <output_file>
-    '''
+    'python retrofit_tool.py -input <input_file> -lexicon <lexicon_file> -output <output_file>'
     Replace `<input_file>` with the path to the file containing the original word vectors.
     Replace `<lexicon_file>` with the path to the file containing the lexicon of word relations.
     Replace `<output_file>` with the desired path and filename for the output file.
